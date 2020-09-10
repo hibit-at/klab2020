@@ -32,23 +32,33 @@ float map( vec3 p, float s )
     float ans1 = abs(p.x)/scale;
     float ans2 = abs(p.y)/scale;
     float ans3 = abs(p.z)/scale;
-    float t1, t2, t3;
-    if(mod(iTime,3.0)<1.0){
+    float ans4 = 1.0/scale;
+    float t1, t2, t3, t4;
+    if(mod(iTime,4.0)<1.0){
         t1 = 0.5;
         t2 = 0.0;
         t3 = 0.0;
+        t4 = 0.0;
     }
-    if(mod(iTime,3.0)<2.0){
+    else if(mod(iTime,4.0)<2.0){
         t1 = 0.0;
         t2 = 0.5;
         t3 = 0.0;
+        t4 = 0.0;
     }
-    if(mod(iTime,3.0)<3.0){
+    else if(mod(iTime,4.0)<3.0){
         t1 = 0.0;
         t2 = 0.0;
         t3 = 0.5;
+        t4 = 0.0;
     }
-    return t1*ans1 + t2*ans2 + t3*ans3;
+    else if(mod(iTime,4.0)<4.0){
+        t1 = 0.0;
+        t2 = 0.0;
+        t3 = 0.0;
+        t4 = 0.5;
+    }
+    return t1*ans1 + t2*ans2 + t3*ans3 + t4*ans4;
 }
 
 float trace( in vec3 ro, in vec3 rd, float s )

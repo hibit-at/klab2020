@@ -16,7 +16,7 @@ const float pi2 = pi * 2.0;
 
 // Distance Function
 vec3 trans(vec3 p){
-    return mod(p, 10.0) - 2.0;
+    return mod(p+iTime, 10.0) - 2.0;
 }
 
 float sphere(vec3 p, float s) {
@@ -144,7 +144,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	// レイマーチング
     float t = 0.01;
     vec3 col = vec3(0.0);
-    for(int i=0; i<99; i++) {
+    for(int i=0; i<100; i++) {
     	vec3 pos = cameraPos + ray * t;
         vec2 d = map(pos);
         if (d.x < 0.001) {
