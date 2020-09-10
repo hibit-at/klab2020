@@ -1,6 +1,6 @@
 // Distance Function
 vec3 trans(vec3 p){
-    return mod(p, 3.0) - 1.0;
+    return mod(p, 5.0) - 2.0;
 }
 
 float sphere(vec3 p, float s) {
@@ -23,7 +23,7 @@ vec4 qmul(vec4 a, vec4 b) {
     );
 }
 
-#define ITERATIONS 32
+#define ITERATIONS 16
 vec2 deMandelbulb(vec3 p, float power) {
     vec3 z = p;
     float dr = 2.0;
@@ -47,8 +47,12 @@ vec2 deMandelbulb(vec3 p, float power) {
     return vec2(1.0 * log(r) * r / dr, cnt);
 }
 
-vec2 de(vec3 p) {
+vec2 dep(vec3 p) {
     return deMandelbulb(trans(p), 1.5+iTime/10.0);
+}
+
+vec2 de(vec3 p){
+    return deMandelbulb(p, 1.5+iTime/10.0);
 }
 
 vec3 CreateRay(vec2 p, vec3 cameraPos, vec3 cameraTarget, float fov) {
@@ -78,8 +82,20 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     vec2 p = (fragCoord.xy * 2.0 - iResolution.xy) / min(iResolution.x, iResolution.y);
     
     //カメラの位置
-    vec3 cameraPos = vec3(6.0*sin(iTime), 0.0,6.0*cos(iTime));
+    vec3 cameraPos;
     cameraPos = vec3(3.0,3.0,3.0);
+    if(iTime > 10.0){
+        cameraPos = vec3(3.0,3.0,iTime-7.0);
+    }
+    if(iTime > 20.0){
+        float t = iTime - 20.0;
+        vec3 Pos1 = vec3(3.0,3.0,13.0);
+        vec3 Pos2 = vec3(3.0,3.0,3.0);
+        cameraPos = t*Pos2 + (1.0-t)*Pos1;
+    }
+    if(iTime > 21.0){
+        cameraPos = vec3(3.0,3.0,3.0);
+    }
     
     // カメラの注視点
     vec3 cameraTarget = vec3(0.0);
@@ -90,9 +106,10 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	// レイマーチング
     float t = 0.01;
     vec3 col = vec3(0.0);
-    for(int i=0; i<99; i++) {
+    for(int i=0; i<30; i++) {
     	vec3 pos = cameraPos + ray * t;
-        vec2 d = de(pos);
+        vec2 d = dep(pos);
+        if(iTime > 21.0) d = de(pos);
         if (d.x < 0.001) {
             // マテリアル毎に色を決定
             vec3 c;

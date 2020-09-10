@@ -105,7 +105,7 @@ vec2 thinkingFace(vec3 p)
     vec2 finger5 = vec2(sdCapsule(p, vec3(0.0, -0.2, 0.0) - q, vec3(0.0, 0.2, 0.0), .1 - p.y * 0.15), MAT_HAND);
     vec2 finger = opU(finger1, opU(finger5, opSU(finger2, opSU(finger3, finger4, 0.035), 0.035)));
     
-    hand = opSU(hand, finger, 0.02);
+    hand = opSU(hand, finger, 0.0);
     
     vec2 d = opU(eye, face);
     d = opU(brow, d);
@@ -430,8 +430,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     vec2 p = (fragCoord.xy * 2.0 - iResolution.xy) / min(iResolution.x, iResolution.y);
     float t = iTime * M_PI * 2.0 / 6.0 - M_PI * 0.5;
     sunDir = normalize(vec3(.5, sin(t), cos(t)));
-    vec3 ro = vec3(0.0,5.0,5.0);
-    vec3 ta = vec3(0.0,0.0, 0.0);
+    vec3 ro = vec3(0.0,4.0,5.0);
+    vec3 ta = vec3(0.0,3.0, 0.0);
     mat3 c = camera(ro, ta, 0.0);
     vec3 ray = c * normalize(vec3(p, 3.5));
     vec3 col = trace(ro, ray);
