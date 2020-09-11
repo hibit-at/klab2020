@@ -71,11 +71,34 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     vec2 p = (fragCoord.xy * 2.0 - iResolution.xy) / min(iResolution.x, iResolution.y);
     
     //カメラの位置
-    vec3 cameraPos = vec3(sin(iTime) * 5.0, 2.0, 0.0);
+    vec3 cameraPos;
     cameraPos = vec3(1.0, 1.0, 1.0);
+    if (iTime > 20.0){
+        float t = iTime - 20.0;
+        cameraPos = vec3(1.0+sqrt(t),1.0,1.0);
+    }
+    if (iTime > 45.0){
+        cameraPos = vec3(1.0, 1.0, 1.0);
+    }
+    if(iTime > 58.0){
+        float t = iTime - 58.0;
+        cameraPos = vec3(1.0,1.0,1.0+t);
+    }
+
     
     // カメラの注視点
     vec3 cameraTarget = vec3(2.0, 2.0, 2.0);
+    if(iTime > 40.0){
+        float t = iTime - 40.0;
+        cameraTarget = vec3(2.0+t,2.0,2.0);
+    }
+    if(iTime > 45.0){
+        cameraTarget = vec3(2.0,2.0,2.0);
+    }
+    if(iTime > 58.0){
+        float t = iTime - 58.0;
+        cameraPos = vec3(2.0,2.0,2.0+t);
+    }
     
     // シェーディングピクセルのカメラからシーンへのレイ
     vec3 ray = CreateRay(p, cameraPos, cameraTarget, 2.5);

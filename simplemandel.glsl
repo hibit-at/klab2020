@@ -23,7 +23,7 @@ vec4 qmul(vec4 a, vec4 b) {
     );
 }
 
-#define ITERATIONS 16
+#define ITERATIONS 32
 vec2 deMandelbulb(vec3 p, float power) {
     vec3 z = p;
     float dr = 2.0;
@@ -94,7 +94,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
         cameraPos = t*Pos2 + (1.0-t)*Pos1;
     }
     if(iTime > 21.0){
-        cameraPos = vec3(3.0,3.0,3.0);
+        cameraPos = vec3(3.0,3.0,3.0); 
     }
     
     // カメラの注視点
@@ -106,7 +106,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	// レイマーチング
     float t = 0.01;
     vec3 col = vec3(0.0);
-    for(int i=0; i<30; i++) {
+    for(int i=0; i<100; i++) {
     	vec3 pos = cameraPos + ray * t;
         vec2 d = dep(pos);
         if(iTime > 21.0) d = de(pos);
